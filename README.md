@@ -8,3 +8,9 @@
 
 ---
 Follow my journey here 👉 [Your LinkedIn URL]
+
+## Usage
+- WSL/Linux:
+  - cd Day1_Linux_Git && ./backup.sh
+- Windows PowerShell:
+  - cd Day1_Linux_Git; ./backup.ps1

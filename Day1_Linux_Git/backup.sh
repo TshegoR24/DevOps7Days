@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 # Simple backup script
 DATE=$(date +%F)
 BACKUP_DIR="$HOME/backup_$DATE"
