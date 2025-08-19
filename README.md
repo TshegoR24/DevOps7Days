@@ -7,7 +7,7 @@
 ✅ Set up GitHub repo & branching workflow  
 
 ---
-Follow my journey here 👉 [Your LinkedIn URL]
+Follow my journey here 👉 [https://www.linkedin.com/in/tshegofatso-rakoma-0a314484/]
 
 ## Usage
 - WSL/Linux:
