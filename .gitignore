@@ -1,0 +1,14 @@
+﻿*.log
+.DS_Store
+Thumbs.db
+.env
+__pycache__/
+.venv/
+.idea/
+.vscode/
+node_modules/
+dist/
+build/
+.terraform/
+.pytest_cache/
+.history/
