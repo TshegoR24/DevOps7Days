@@ -1,0 +1,34 @@
+﻿Automation vs Manual Work Comparison
+
+
+                    MANUAL WORK                           
+                
+    File 1       File 2       File 3       File 4   
+   Rename       Rename       Rename       Rename    
+    30s          30s          30s          30s      
+                
+                                                             
+  Total Time: 2 minutes (120 seconds)                        
+
+
+
+                 AUTOMATION WITH SCRIPTS                  
+                                                             
+    
+                Python Script                                
+    import os                                                
+    for file in os.listdir("."):                             
+        if file.endswith(".txt"):                            
+            os.rename(file, f"file_{count}.txt")            
+    
+                                                             
+  Total Time: 2 seconds                                     
+  Time Saved: 98.3%                                         
+
+
+Benefits of Automation:
+ Consistent results
+ No human errors
+ Scalable to thousands of files
+ Repeatable process
+ Time savings: 98%+
