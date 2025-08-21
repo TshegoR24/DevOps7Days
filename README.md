@@ -1,4 +1,5 @@
-﻿# 🚀 7 Days of DevOps Challenge
+﻿# [![CI](https://github.com/TshegoR24/DevOps7Days/actions/workflows/ci.yml/badge.svg)](https://github.com/TshegoR24/DevOps7Days/actions/workflows/ci.yml) 
+# 🚀 7 Days of DevOps Challenge
 
 ## 📅 Day 1 – Linux & Git Foundations
 ✅ Installed Ubuntu (WSL2/VM/EC2)  
