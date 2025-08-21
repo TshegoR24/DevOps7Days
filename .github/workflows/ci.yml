@@ -23,7 +23,7 @@ jobs:
         run: |
           echo "Deploying Application..."
           mkdir -p deploy
-          cp app.py deploy/
+          cp Day3_CICD/app.py deploy/
           echo "Deployment complete!"
   bash_shellcheck:
     runs-on: ubuntu-latest
@@ -64,6 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Slack Notification
+        if: ${{ env.SLACK_WEBHOOK != ' }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
