@@ -19,6 +19,12 @@ jobs:
       - name: Run pytest
         run: |
           pytest -q
+      - name: Deployment Step
+        run: |
+          echo "Deploying Application..."
+          mkdir -p deploy
+          cp app.py deploy/
+          echo "Deployment complete!"
       - name: Upload test artifacts
         uses: actions/upload-artifact@v4
         with:
