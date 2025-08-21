@@ -1,0 +1,60 @@
+﻿name: Day 3 CI
+on:
+  push:
+  pull_request:
+jobs:
+  python_checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install linters
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+      - name: Run flake8
+        run: |
+          flake8 .
+      - name: Validate Python files compile
+        run: |
+          python - <<"PY"
+          import glob, py_compile, sys
+          files = glob.glob("Day2_Scripting/*.py")
+          [py_compile.compile(f, doraise=True) for f in files]
+          print("Checked:", files)
+          PY
+  bash_shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ShellCheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+      - name: Run ShellCheck on scripts
+        run: |
+          set -e
+          if compgen -G "Day2_Scripting/*.sh" > /dev/null; then
+            find Day2_Scripting -type f -name "*.sh" -print0 | xargs -0 -r shellcheck -S warning
+          else
+            echo "No shell scripts found in Day2_Scripting"
+          fi
+  powershell_lint:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module PSScriptAnalyzer -Scope CurrentUser -Force
+      - name: Analyze PowerShell scripts
+        shell: pwsh
+        run: |
+          if (Test-Path "Day1_Linux_Git/backup.ps1") {
+            Invoke-ScriptAnalyzer -Path "Day1_Linux_Git/backup.ps1" -Recurse -Severity Warning
+          } else {
+            Write-Output "No PowerShell scripts to analyze"
+          }
