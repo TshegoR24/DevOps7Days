@@ -16,3 +16,30 @@ jobs:
           pip install pytest
       - name: Run tests
         run: pytest -q Day3_CICD
+      - name: Deployment Step
+        run: |
+          echo "Deploying Application..."
+          mkdir -p deploy
+          cp Day3_CICD/app.py deploy/
+          echo "Deployment complete!"
+      - name: Upload deploy artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-${{ github.sha }}
+          path: deploy
+      - name: Check Slack configured
+        id: slack
+        env:
+          WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        run: |
+          if [ -n "$WEBHOOK" ]; then
+            echo "configured=true" >> $GITHUB_OUTPUT
+          else
+            echo "configured=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Slack Notification
+        if: ${{ steps.slack.outputs.configured == 'true' }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: ${{ job.status }}
