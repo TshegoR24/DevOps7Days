@@ -1,5 +1,5 @@
-﻿import os
-import sys
+﻿import sys
+from pathlib import Path
 
-# Ensure tests can import sample_app when running from repo root
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(BASE_DIR))
