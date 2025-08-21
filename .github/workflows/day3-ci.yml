@@ -30,7 +30,6 @@ jobs:
           sudo apt-get install -y shellcheck
       - name: Run ShellCheck on scripts (non-fatal warnings)
         run: |
-          set -e
           if compgen -G "Day2_Scripting/*.sh" > /dev/null; then
             find Day2_Scripting -type f -name "*.sh" -print0 | xargs -0 -r shellcheck -S warning || true
           else
