@@ -63,14 +63,7 @@ jobs:
     needs: [python_checks, bash_shellcheck, powershell_lint]
     runs-on: ubuntu-latest
     steps:
-      - name: Slack notification
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          STATUS: ${{ needs.python_checks.result || needs.bash_shellcheck.result || needs.powershell_lint.result }}
-        run: |
-          if [ -n "$SLACK_WEBHOOK_URL" ]; then
-            MSG="CI status: ${STATUS} for ${GITHUB_REPOSITORY}@${GITHUB_REF_NAME}"
-            curl -X POST -H "Content-type: application/json" --data "{\"text\":\"${MSG}\"}" "$SLACK_WEBHOOK_URL"
-          else
-            echo "SLACK_WEBHOOK_URL not set; skipping notification"
-          fi
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
