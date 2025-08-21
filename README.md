@@ -32,6 +32,13 @@
  Simulated deployment step after tests  
 ✅
  Added pipeline notifications via Slack  
+
+## 📅 Day 3 – CI/CD Pipelines
+✅ Installed Jenkins / Used GitHub Actions  
+✅ Created a simple CI pipeline (Hello World)  
+✅ Added automated tests with pytest → [test_app.py](Day3_CICD/test_app.py)  
+✅ Simulated deployment step after tests  
+✅ Added pipeline notifications via Slack  
 ## Usage
 - WSL/Linux:
   - cd Day1_Linux_Git && ./backup.sh
