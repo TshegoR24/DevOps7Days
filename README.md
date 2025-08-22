@@ -39,6 +39,12 @@
 ✅ Added automated tests with pytest → [test_app.py](Day3_CICD/test_app.py)  
 ✅ Simulated deployment step after tests  
 ✅ Added pipeline notifications via Slack  
+
+## 📅 Day 4 – Docker Containerization
+✅ Created Dockerfile for Python app → [Dockerfile](Day4_Docker/Dockerfile)  
+✅ Added .dockerignore to keep image clean  
+✅ Extended CI pipeline to build Docker image  
+✅ Containerized app runs tests in isolated environment  
 ## Usage
 - WSL/Linux:
   - cd Day1_Linux_Git && ./backup.sh
