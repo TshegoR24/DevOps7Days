@@ -44,3 +44,40 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_COLOR: ${{ job.status }}
 
+  docker_push_dockerhub:
+    runs-on: ubuntu-latest
+    needs: docker_build
+    if: ${{ secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and Push (Docker Hub)
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/sample-app:latest Day4_Docker
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/sample-app:latest
+
+  docker_push_ghcr:
+    runs-on: ubuntu-latest
+    needs: docker_build
+    if: ${{ !secrets.DOCKERHUB_USERNAME }}
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and Push (GHCR)
+        env:
+          IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/sample-app:latest
+        run: |
+          docker build -t $IMAGE_NAME Day4_Docker
+          docker push $IMAGE_NAME
