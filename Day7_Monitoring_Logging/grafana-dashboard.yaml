@@ -1,0 +1,125 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sample-app-dashboard
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  sample-app-dashboard.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "Sample Application Dashboard",
+        "tags": ["sample-app", "monitoring"],
+        "style": "dark",
+        "timezone": "browser",
+        "panels": [
+          {
+            "id": 1,
+            "title": "Request Rate",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(app_request_total[5m])",
+                "legendFormat": "{{method}} {{endpoint}}"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+          },
+          {
+            "id": 2,
+            "title": "Request Latency",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "histogram_quantile(0.95, rate(app_request_latency_seconds_bucket[5m]))",
+                "legendFormat": "95th percentile"
+              },
+              {
+                "expr": "histogram_quantile(0.50, rate(app_request_latency_seconds_bucket[5m]))",
+                "legendFormat": "50th percentile"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+          },
+          {
+            "id": 3,
+            "title": "Active Requests",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "app_active_requests",
+                "legendFormat": "Active Requests"
+              }
+            ],
+            "gridPos": {"h": 4, "w": 6, "x": 0, "y": 8}
+          },
+          {
+            "id": 4,
+            "title": "Error Rate",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "rate(app_error_total[5m])",
+                "legendFormat": "Errors/sec"
+              }
+            ],
+            "gridPos": {"h": 4, "w": 6, "x": 6, "y": 8}
+          },
+          {
+            "id": 5,
+            "title": "Pod CPU Usage",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(container_cpu_usage_seconds_total{container=\"sample-app\"}[5m]) * 100",
+                "legendFormat": "{{pod}}"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 12}
+          },
+          {
+            "id": 6,
+            "title": "Pod Memory Usage",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "container_memory_usage_bytes{container=\"sample-app\"} / 1024 / 1024",
+                "legendFormat": "{{pod}} MB"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 12}
+          },
+          {
+            "id": 7,
+            "title": "HTTP Status Codes",
+            "type": "piechart",
+            "targets": [
+              {
+                "expr": "sum(rate(app_request_total[5m])) by (status)",
+                "legendFormat": "{{status}}"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 20}
+          },
+          {
+            "id": 8,
+            "title": "Endpoint Distribution",
+            "type": "piechart",
+            "targets": [
+              {
+                "expr": "sum(rate(app_request_total[5m])) by (endpoint)",
+                "legendFormat": "{{endpoint}}"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 20}
+          }
+        ],
+        "time": {
+          "from": "now-1h",
+          "to": "now"
+        },
+        "refresh": "30s"
+      }
+    }
